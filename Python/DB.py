@@ -81,8 +81,32 @@ class InfluxDB2(DB):
         self._client = InfluxDBClient(url=f'http://{self._address}:{self._port}', token=self._address, org=self._org)
         self._write_api = self._client.write_api()
         
-    def write_data(self, data) -> None:
+    def write_data(self, data, record="REEALTIME", unit="mV", measurement="EOG") -> None:
+        """
+        It takes in a list of two values, the first being the value of the data point and the second being
+        the time of the data point. It then creates a dictionary with the appropriate tags and fields and
+        writes it to the database
+        
+        :param data: The data to be written to the database. This must be in the format of a list with 2
+        values. The first value is the data point, and the second value is the timestamp
+        :param record: The name of the record, defaults to REEALTIME (optional)
+        :param unit: The unit of the data, defaults to mV (optional)
+        :param measurement: The name of the measurement, defaults to EOG (optional)
+        """
         if type(data) != list or len(data) != 2:
             raise TypeError("Data must be in list format with 2 values")
         
+        point = {
+                "measurement": "Waveform",
+                "tags": {
+                    "Record":record,
+                    "Unit": unit,
+                    "Measurement":measurement
+                },
+                "fields": {
+                    "value":data[0]
+                },
+                "time": data[1]
+            }
         
+        self._write_api.write(self._database_name, self._org, point)
