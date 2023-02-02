@@ -3,10 +3,11 @@ import time
 from DB import *
 
 class DataFetcher(ABC):
-    def __init__(self, DB=InfluxDB2()) -> None:
+    def __init__(self, DB=InfluxDB2(), length=60) -> None:
         super().__init__()  
         self._buffer = []
         self._DB = DB
+        self._buffer_length = length
         
     # GETTERS
     
@@ -21,6 +22,13 @@ class DataFetcher(ABC):
         time_of_in = int(round(time.time() * 1000000000))
         data_pack = [val, time_of_in]
         DB.write_data(data_pack)
+        clear_old_data()
+        
+    def clear_old_data(self) -> None:
+        old_time = int(round((time.time() - self._buffer_length) * 1000000000))
+        for i in range(0, len(self._buffer)):
+            if self._buffer[0][1] <= old_time:
+                self._buffer.pop(i)
         
         
         
