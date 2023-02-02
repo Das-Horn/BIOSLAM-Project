@@ -35,7 +35,7 @@ def main():
                 "fields": {
                     "value":vals[1]
                 },
-                "time": int(round(time.time() * 1000000000))
+                "time": int(round(time.time() * 1000000000))\
             }
         ]
         print(f'Writing point to DB : {points}')

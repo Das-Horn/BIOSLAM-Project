@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from influxdb_client import InfluxDBClient
 
 
 class DB(ABC):
@@ -72,5 +73,16 @@ class DB(ABC):
         return f'{self._database_name}:\nusername:\t{self._username}\naddress:\t{self._address}:{self._port}\n'
     
 class InfluxDB2(DB):
-    def __init__(self, username="", password="", address="localhost", port=0, db_name=""):
-        super().__init__(username, password, address, port, db_name)
+    def __init__(self, token="", address="localhost", port=0, db_name="", org=""):
+        super().__init__("", "", address, port, db_name)
+        self._org = org
+        self._token = token
+        # Create Client & api for Influx
+        self._client = InfluxDBClient(url=f'http://{self._address}:{self._port}', token=self._address, org=self._org)
+        self._write_api = self._client.write_api()
+        
+    def write_data(self, data) -> None:
+        if type(data) != list or len(data) != 2:
+            raise TypeError("Data must be in list format with 2 values")
+        
+        
