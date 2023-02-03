@@ -12,8 +12,8 @@ class DataFetcher(ABC):
         
     # GETTERS
     
-    def get_buffer(self) -> list:
-        return self._buffer
+    def get_buffer(self) -> tuple:
+        return tuple(self._buffer)
     
     # SETTERS
     
@@ -49,9 +49,7 @@ class DataFetcher(ABC):
                 break
     
     def clear_buffer(self) -> None:
-        self._buffer = []
-    
-        
+        self._buffer = []  
         
 class Serial(DataFetcher):
     def __init__(self, DB=InfluxDB2(), length=60) -> None:
