@@ -44,7 +44,7 @@ class DataFetcher(ABC):
         old_time = int(round((time.time() - self._buffer_length) * 1000000000))
         for i in range(0, len(self._buffer)):
             if self._buffer[0][1] <= old_time:
-                self._buffer.pop(i)
+                self._buffer.pop(0)
             else:
                 break
     

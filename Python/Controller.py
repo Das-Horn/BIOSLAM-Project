@@ -62,6 +62,11 @@ class Controller(ABC):
     
     #   METHOD USED FOR CHECKING BUFFER AND MAKING ACTIONS - OVERWRITE THIS
     def update(self) -> tuple:
+        """
+        It takes a list of numbers, and counts how many times the numbers go above a certain threshold, and
+        how many times they go below a certain threshold
+        :return: A tuple of the current stats.
+        """
         buffer = self._data_fetcher.get_buffer()
         upper_bool, lower_bool = False
         
@@ -74,10 +79,14 @@ class Controller(ABC):
                 lower_bool = True
             elif i < self._upper_treshold and i > self._lower_treshold:
                 lower_bool = False
-                upper_bool = True
+                upper_bool = False
             
         return tuple(self._current_stats)
     
 class PCInputs(Controller):
-    def __init__(self, data_fetcher=Serial(), upper_tresh=1, lower_tresh=-1, baseline=0) -> None:
+    def __init__(self, data_fetcher=Serial(), upper_tresh=1, lower_tresh=-1, baseline=0, mode="Relative") -> None:
         super().__init__(data_fetcher, upper_tresh, lower_tresh, baseline)
+        self._mode = mode
+    
+    def update(self) -> tuple:
+        return super().update()
