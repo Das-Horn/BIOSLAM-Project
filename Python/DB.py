@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from influxdb_client import InfluxDBClient
+import asyncio
 
 
 class DB(ABC):
@@ -81,7 +82,7 @@ class InfluxDB2(DB):
         self._client = InfluxDBClient(url=f'http://{self._address}:{self._port}', token=self._address, org=self._org)
         self._write_api = self._client.write_api()
         
-    def write_data(self, data, record="REEALTIME", unit="mV", measurement="EOG") -> None:
+    async def write_data(self, data, record="REEALTIME", unit="mV", measurement="EOG") -> None:
         """
         It takes in a list of two values, the first being the value of the data point and the second being
         the time of the data point. It then creates a dictionary with the appropriate tags and fields and
