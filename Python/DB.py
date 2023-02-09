@@ -4,7 +4,7 @@ from influxdb_client import InfluxDBClient
 
 class DB(ABC):
     def __init__(self, username="", password="",address="localhost", port=0000, db_name=""):
-        super.__init__()
+        # super.__init__()
         self._username = username
         self._password = password
         self._address = address

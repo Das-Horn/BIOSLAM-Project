@@ -5,7 +5,7 @@ import wfdb
 
 class DataFetcher(ABC):
     def __init__(self, DB=InfluxDB2(), length=60) -> None:
-        super().__init__()  
+        # super().__init__()  
         self._buffer = []
         self._DB = DB
         self._buffer_length = length

@@ -4,7 +4,7 @@ from DataIn import *
 
 class Controller(ABC):
     def __init__(self, data_fetcher=Serial(), upper_tresh=1, lower_tresh=-1, baseline=0) -> None:
-        super().__init__()
+        # super().__init__()
         self._data_fetcher = data_fetcher
         self._upper_treshold = upper_tresh
         self._lower_treshold = lower_tresh
@@ -67,8 +67,9 @@ class Controller(ABC):
         how many times they go below a certain threshold
         :return: A tuple of the current stats.
         """
+        
         buffer = self._data_fetcher.get_buffer()
-        upper_bool, lower_bool = False
+        upper_bool = lower_bool = False
         
         for i in buffer:
             if i >= self._upper_treshold and not upper_bool:
@@ -89,4 +90,18 @@ class PCInputs(Controller):
         self._mode = mode
     
     def update(self) -> tuple:
-        return super().update()
+        buffer = self._data_fetcher.get_buffer()
+        upper_bool = lower_bool = False
+        
+        for i in buffer:
+            if i >= self._upper_treshold and not upper_bool:
+                self._current_stats[0] += 1
+                pyautogui.scroll(10)
+                upper_bool = True
+            elif i <= self._lower_treshold and not lower_bool:
+                self._current_stats[1] += 1
+                pyautogui.scroll(-10)
+                lower_bool = True
+            elif i < self._upper_treshold and i > self._lower_treshold:
+                lower_bool = False
+                upper_bool = False
