@@ -1,0 +1,12 @@
+grafana:
+    image: 'grafana/grafana:latest'
+    restart: unless-stopped
+    ports:
+        - 3005:3000
+    
+InfluxDB:
+    image: 'influxdb:latest'
+    restart: unless-stopped
+    ports: 
+        - 8086:8086
+    

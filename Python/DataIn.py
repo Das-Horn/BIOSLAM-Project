@@ -68,14 +68,13 @@ class Serial(DataFetcher):
     # Override update to accomadate the serial connection
     def update_buffer(self) -> None:
         """
-        It takes a float, adds it to a list, then adds that list to a buffer
-        
-        :param val: The value to be added to the buffer
+        This function reads a line from the serial port, converts it to a voltage value, adds it to the
+        database, clears any old data from the buffer, and adds the new data to the buffer
         """
         str_val = self.__ser.readline()
         
         val = int(str_val.split(" ")[2])
-        val = float(val)/1023.0 * 5.0 # Get Voltage Estimate
+        val = float(val)/1023.0 * 5.0 # Convert from units to voltage at 10 bit resolution (default for arduino)
         
         time_of_in = int(round(time.time() * 1000000000))
         data_pack = [val, time_of_in]
