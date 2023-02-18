@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import time
 from DB import *
 import wfdb
+import serial
 
 class DataFetcher(ABC):
     def __init__(self, DB=InfluxDB2(), length=60) -> None:
@@ -52,8 +53,36 @@ class DataFetcher(ABC):
         self._buffer = []  
         
 class Serial(DataFetcher):
-    def __init__(self, DB=InfluxDB2(), length=60) -> None:
+    def __init__(self, DB=InfluxDB2(), length=60, port="COM11", baudrate=9600) -> None:
         super().__init__(DB, length)
+        self.__serial_port = port
+        self.__baudrate = baudrate
+        self.__ser = serial.Serial()
+        
+        # Configure Serial Port Options
+        self.__ser.port = self.__serial_port
+        self.__ser.baudrate = self.__baudrate
+        self.__ser.timeout = 1
+    
+    
+    # Override update to accomadate the serial connection
+    def update_buffer(self) -> None:
+        """
+        It takes a float, adds it to a list, then adds that list to a buffer
+        
+        :param val: The value to be added to the buffer
+        """
+        str_val = self.__ser.readline()
+        
+        val = int(str_val.split(" ")[2])
+        val = float(val)/1023.0 * 5.0 # Get Voltage Estimate
+        
+        time_of_in = int(round(time.time() * 1000000000))
+        data_pack = [val, time_of_in]
+        self._DB.write_data(data_pack)                            # Add new Data to the database
+        self.clear_old_data()                                     # Clear any Data from the buffer past the time treshhold
+        self._buffer.append(data_pack)    
+    
         
 class WFDB(DataFetcher):
     def __init__(self, DB=InfluxDB2(), length=60) -> None:

@@ -90,6 +90,8 @@ class PCInputs(Controller):
         self._mode = mode
     
     def update(self) -> tuple:
+        self._data_fetcher.update_buffer()
+        
         buffer = self._data_fetcher.get_buffer()
         upper_bool = lower_bool = False
         
