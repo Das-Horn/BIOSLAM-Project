@@ -74,15 +74,15 @@ class DB(ABC):
         return f'{self._database_name}:\nusername:\t{self._username}\naddress:\t{self._address}:{self._port}\n'
     
 class InfluxDB2(DB):
-    def __init__(self, token="", address="localhost", port=0, db_name="", org=""):
+    def __init__(self, token="", address="localhost", port=8086, db_name="", org=""):
         super().__init__("", "", address, port, db_name)
         self._org = org
         self._token = token
         # Create Client & api for Influx
-        self._client = InfluxDBClient(url=f'http://{self._address}:{self._port}', token=self._address, org=self._org)
+        self._client = InfluxDBClient(url=f'http://{self._address}:{self._port}', token=self._token, org=self._org)
         self._write_api = self._client.write_api()
         
-    async def write_data(self, data, record="REEALTIME", unit="mV", measurement="EOG") -> None:
+    def write_data(self, data, record="REALTIME", unit="mV", measurement="EOG") -> None:
         """
         It takes in a list of two values, the first being the value of the data point and the second being
         the time of the data point. It then creates a dictionary with the appropriate tags and fields and
@@ -98,7 +98,7 @@ class InfluxDB2(DB):
             raise TypeError("Data must be in list format with 2 values")
         
         point = {
-                "measurement": "Waveform",
+                "measurement": measurement,
                 "tags": {
                     "Record":record,
                     "Unit": unit,
@@ -111,3 +111,4 @@ class InfluxDB2(DB):
             }
         
         self._write_api.write(self._database_name, self._org, point)
+        print("Write TO DB")

@@ -71,16 +71,22 @@ class Serial(DataFetcher):
         This function reads a line from the serial port, converts it to a voltage value, adds it to the
         database, clears any old data from the buffer, and adds the new data to the buffer
         """
-        str_val = self.__ser.readline()
-        
-        val = int(str_val.split(" ")[2])
-        val = float(val)/1023.0 * 5.0 # Convert from units to voltage at 10 bit resolution (default for arduino)
-        
-        time_of_in = int(round(time.time() * 1000000000))
-        data_pack = [val, time_of_in]
-        self._DB.write_data(data_pack)                            # Add new Data to the database
-        self.clear_old_data()                                     # Clear any Data from the buffer past the time treshhold
-        self._buffer.append(data_pack)    
+        if not self.__ser.is_open:
+            self.__ser.open()    
+        str_val = str(self.__ser.readline())
+        try:
+            print(str_val.split(" ")[2].replace("\\r\\n'", ''))
+            val = int(str_val.split(" ")[2].replace("\\r\\n'", ''))
+            val = float(val)/1023.0 * 5.0 # Convert from units to voltage at 10 bit resolution (default for arduino)
+            print(f'Current Voltage = {val}')
+            
+            time_of_in = int(round(time.time() * 1000000000))
+            data_pack = [val, time_of_in]
+            self._DB.write_data(data_pack)                            # Add new Data to the database
+            self.clear_old_data()                                     # Clear any Data from the buffer past the time treshhold
+            self._buffer.append(data_pack)    
+        except Exception as e:
+            print("Error when reading from device")
     
         
 class WFDB(DataFetcher):
