@@ -4,6 +4,8 @@ from Controller import PCInputs
 import os
 from dotenv import load_dotenv
 
+from serial.serialutil import *
+
 def main():
     load_dotenv()
     
@@ -29,6 +31,10 @@ def main():
     except KeyboardInterrupt as c :
         print("Stopping Program...")
         # Enter any cleanup data here
+    except SerialException as se:
+        print("Error connecting to board please make sure it is connedcted properly.")
+        print(f'Port : {data.get_serial_port()}\nBaudrate : {data.get_baudrate()}')
+        print(f'\n\nMore Error details below..\n{se}')
     pass
 
 if __name__ == "__main__":

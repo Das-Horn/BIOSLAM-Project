@@ -63,6 +63,14 @@ class Serial(DataFetcher):
         self.__ser.port = self.__serial_port
         self.__ser.baudrate = self.__baudrate
         self.__ser.timeout = 1
+        
+    # GETTERS
+    
+    def get_serial_port(self) -> str:
+        return self.__serial_port
+    
+    def get_baudrate(self) -> int:
+        return self.__baudrate
     
     
     # Override update to accomadate the serial connection
