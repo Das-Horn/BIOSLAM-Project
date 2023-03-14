@@ -98,6 +98,39 @@ class Serial(DataFetcher):
     
         
 class WFDB(DataFetcher):
-    def __init__(self, DB=InfluxDB2(), length=60) -> None:
+    def __init__(self, DB=InfluxDB2(), length=60, file_path="") -> None:
         super().__init__(DB, length)
+        # Check invalid file path
+        if file_path == "":
+            raise TypeError("Invalid File Path")
+        
+        self._record = wfdb.rdrecord(file_path)
+    
+    # GETTERS
+    
+    def get_record(self) -> wfdb.WFDB:
+        """
+        This method returns the record
+        :return: The record object.
+        """
+        return self._record
+    
+    # SETTERS
+    
+    def set_record(self, file_path="") -> None:
+        """
+        This method takes in a file path and sets the record of the class to the record of
+        the file path
+        
+        :param file_path: The path to the file you want to read
+        """
+        if file_path == "":
+            raise TypeError("Invalid File Path")
+        
+        self._record = wfdb.rdrecord(file_path)
+    
+    # OVERRIDES
+    
+    def update_buffer(self) -> None:
+        pass
         
