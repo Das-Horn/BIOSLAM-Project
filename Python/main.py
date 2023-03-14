@@ -1,5 +1,5 @@
 from DB import InfluxDB2
-from DataIn import Serial
+from DataIn import Serial,WFDB
 from Controller import PCInputs
 import os
 from dotenv import load_dotenv
@@ -15,11 +15,12 @@ def main():
         db_name="ProjectData",
         org="Project"
     )
-    data = Serial(DB=db)
+    # data = Serial(DB=db)
+    data = WFDB(DB=db, file_path="Data-testing/sample-data/ECG/16265")
     control = PCInputs(
         data,
         upper_tresh=3,
-        lower_tresh=1,
+        lower_tresh=-1.1,
         baseline=1.66
     )
     

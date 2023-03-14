@@ -6,7 +6,7 @@ from datetime import datetime
 
 def main():
     #Getting Waveform data from record
-    record = wfdb.rdrecord('sample-data/16265') # p_signal to get data, 
+    record = wfdb.rdrecord('sample-data/ECG/16265') # p_signal to get data, 
     
     # Uploading Data to Database
     client = InfluxDBClient(url="http://192.168.0.150:8086", token="BhrNgTdlkn6ycGDsm_vx9GjEFs2xJYpyYbj7U-WXIxzbBlSuapJTbNdIaCBR5tO69_WPJTRwaGLqKva14PUQdw==", org="Y4 Project")

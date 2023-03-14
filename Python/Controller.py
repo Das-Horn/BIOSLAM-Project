@@ -94,15 +94,17 @@ class PCInputs(Controller):
         
         buffer = self._data_fetcher.get_buffer()
         upper_bool = lower_bool = False
-        
-        if buffer[0] >= self._upper_treshold and not upper_bool:
-            self._current_stats[0] += 1
-            # pyautogui.scroll(10)
-            upper_bool = True
-        elif buffer[0] <= self._lower_treshold and not lower_bool:
-            self._current_stats[1] += 1
-            # pyautogui.scroll(-10)
-            lower_bool = True
-        elif buffer[0] < self._upper_treshold and buffer[0] > self._lower_treshold:
-            lower_bool = False
-            upper_bool = False
+        try :                                                                               # ERROR HANDLE : Empty buffer
+            if buffer[0][0] >= self._upper_treshold and not upper_bool:
+                self._current_stats[0] += 1
+                # pyautogui.scroll(10)
+                upper_bool = True
+            elif buffer[0][0] <= self._lower_treshold and not lower_bool:
+                self._current_stats[1] += 1
+                # pyautogui.scroll(-10)
+                lower_bool = True
+            elif buffer[0][0] < self._upper_treshold and buffer[0][0] > self._lower_treshold:
+                lower_bool = False
+                upper_bool = False
+        except IndexError as ie:
+            print("Buffer is currently empty")

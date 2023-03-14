@@ -105,10 +105,11 @@ class WFDB(DataFetcher):
             raise TypeError("Invalid File Path")
         
         self._record = wfdb.rdrecord(file_path)
+        self._current_record = 0
     
     # GETTERS
     
-    def get_record(self) -> wfdb.WFDB:
+    def get_record(self) -> object:
         """
         This method returns the record
         :return: The record object.
@@ -132,5 +133,10 @@ class WFDB(DataFetcher):
     # OVERRIDES
     
     def update_buffer(self) -> None:
-        pass
+        data_pack = [self._record.p_signal[self._current_record][0], int(round(time.time() * 1000000000))]
+        print(f'Current Data : {data_pack[0]}\t\t Time : {data_pack[1]}')
+        self._current_record += 1
+        self._DB.write_data(data_pack)                            # Add new Data to the database
+        self.clear_old_data()                                     # Clear any Data from the buffer past the time treshhold
+        self._buffer.append(data_pack) 
         
