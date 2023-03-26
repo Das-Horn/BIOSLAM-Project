@@ -15,8 +15,8 @@ def main():
         db_name="ProjectData",
         org="Project"
     )
-    # data = Serial(DB=db)
-    data = WFDB(DB=db, file_path="Data-testing/sample-data/ECG/16265")
+    data = Serial(DB=db)
+    # data = WFDB(DB=db, file_path="Data-testing/sample-data/ECG/16265")
     control = PCInputs(
         data,
         upper_tresh=3,
