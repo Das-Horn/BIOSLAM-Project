@@ -3,6 +3,10 @@ import time
 from DB import *
 import wfdb
 import serial
+import paho.mqtt.client as mqtt
+from threading import *
+import sys
+import struct
 
 class DataFetcher(ABC):
     def __init__(self, DB=InfluxDB2(), length=60) -> None:
@@ -95,8 +99,7 @@ class Serial(DataFetcher):
             self._buffer.append(data_pack)    
         except Exception as e:
             print("Error when reading from device")
-    
-        
+            
 class WFDB(DataFetcher):
     def __init__(self, DB=InfluxDB2(), length=60, file_path="") -> None:
         super().__init__(DB, length)
@@ -139,4 +142,58 @@ class WFDB(DataFetcher):
         self._DB.write_data(data_pack)                            # Add new Data to the database
         self.clear_old_data()                                     # Clear any Data from the buffer past the time treshhold
         self._buffer.append(data_pack) 
+
+class MQTT(DataFetcher):
+    def __init__(self, DB=InfluxDB2(), length=60, server_name="localhost" ,username="", password="", topic="outTopic") -> None:
+        super().__init__(DB, length)
+        self.__server = server_name
+        self.__username = username
+        self.__password = password
+        self.__topic = topic
         
+        #MQTT Setup
+        self.__client = mqtt.Client()
+        self.__client.on_connect = self.on_connect
+        self.__client.on_message = self.on_message
+        try:
+            self.__client.connect(self.__server, 1883, 60) # Connect to the server
+        except ConnectionRefusedError as ce:
+            print("Error Broker refused to connect")
+            sys.exit(0)
+            
+        
+        self.__mqtt_update_thread = Thread(target=self.__client.loop_forever)
+        self.__mqtt_update_thread.start()
+        
+    
+    def on_message(self, client, userdata, msg) -> None:
+        """
+        It takes a message from the MQTT broker, and appends it to a buffer
+        
+        :param client: the client instance for this callback
+        :param userdata: user data of any type and can be set when creating a new client instance or with
+        user_data_set(userdata)
+        :param msg: The message payload
+        """
+        print(msg)
+        time_of_in = int(round(time.time() * 1000000000))
+        data_pack = [float(str(msg.payload.decode("UTF-8"))), time_of_in]
+        
+        self._buffer.append(data_pack)
+    
+    def on_connect(self, client, userdata, flags, rc) -> None:
+        """
+        The function is called when the client receives a CONNACK message from the broker in response to a
+        connection request
+        
+        :param client: the client instance for this callback
+        :param userdata: This is the user data of any type and can be set when creating a new client
+        instance or with userdata_set(userdata)
+        :param flags: response flags sent by the broker
+        :param rc: the error code returned when connecting to the broker
+        """
+        print("Connection Established...")
+        client.subscribe(self.__topic)
+        
+    def update_buffer(self) -> None:
+        pass

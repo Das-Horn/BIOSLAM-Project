@@ -1,5 +1,5 @@
 from DB import InfluxDB2
-from DataIn import Serial,WFDB
+from DataIn import Serial,WFDB, MQTT
 from Controller import PCInputs
 import os
 from dotenv import load_dotenv
@@ -15,8 +15,9 @@ def main():
         db_name="ProjectData",
         org="Project"
     )
-    data = Serial(DB=db)
+    # data = Serial(DB=db)
     # data = WFDB(DB=db, file_path="Data-testing/sample-data/ECG/16265")
+    data = MQTT(db,server_name="192.168.0.150")
     control = PCInputs(
         data,
         upper_tresh=3,

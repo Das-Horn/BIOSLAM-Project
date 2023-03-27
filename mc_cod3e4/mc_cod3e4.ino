@@ -11,7 +11,7 @@
 /*
  *  DEFINITIONS
  */
-#define APin 4
+#define APin 34
 #define OutMode 1
 /*
  * Output Mode ^
@@ -19,11 +19,11 @@
  * 2 = Serial
  */
 
-const char* ssid     = "eir25287583";
-const char* password = "CindyElsa2022!";
+const char* ssid     = "craig";
+const char* password = "11111111";
 
 // MQTT Config 
-IPAddress server(192, 168, 0, 150);
+const char* server = "192.168.0.150";
 WiFiClient espClient;
 PubSubClient client(espClient);
 unsigned long lastMsg = 0;
@@ -56,7 +56,7 @@ void reconnect() {
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
     // Create a random client ID
-    String clientId = "ESP8266Client-";
+    String clientId = "ESP32Client-";
     clientId += String(random(0xffff), HEX);
     // Attempt to connect
     if (client.connect(clientId.c_str())) {
@@ -68,9 +68,9 @@ void reconnect() {
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");
+      Serial.println(" try again in 2 seconds");
       // Wait 5 seconds before retrying
-      delay(5000);
+      delay(2000);
     }
   }
 }
@@ -82,15 +82,14 @@ void MQTTOutput() {
   }
   client.loop();
 
-  unsigned long now = millis();
-  if (now - lastMsg > 2000) {
-    lastMsg = now;
-    ++value;
-    snprintf (msg, MSG_BUFFER_SIZE, "hello world #%ld", value);
-    Serial.print("Publish message: ");
-    Serial.println(msg);
-    client.publish("outTopic", msg);
-  }
+  int val = analogRead(APin);
+  snprintf (msg, MSG_BUFFER_SIZE, "%4d", val);
+  Serial.print(val);
+  Serial.print("    ");
+  Serial.print("Publish message: ");
+  Serial.println(msg);
+  client.publish("outTopic", msg);
+  delay(5);
 }
 
 void cleanSerialOutput() {
