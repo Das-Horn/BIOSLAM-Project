@@ -28,7 +28,7 @@ def main():
     # Event Loop
     try:
         while True:
-            os.system('cls')
+            os.system('clear')
             print(f'Current Buffer Stats = {control.update()}')
     except KeyboardInterrupt as c :
         print("Stopping Program...")

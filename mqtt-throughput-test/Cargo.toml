@@ -6,3 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+paho-mqtt = "0.12.1"
+progress = "0.2.0"
+chrono = "0.4.24"
