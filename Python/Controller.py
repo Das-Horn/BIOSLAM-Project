@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 import pyautogui
 from DataIn import *
+import matplotlib.pyplot as plot
+import numpy as np
+
 
 class Controller(ABC):
     def __init__(self, data_fetcher=Serial(), upper_tresh=1, lower_tresh=-1, baseline=0) -> None:
@@ -109,3 +112,29 @@ class PCInputs(Controller):
         except IndexError as ie:
             print("Buffer is currently empty")
             print(buffer)
+
+class HeartRate(Controller):
+    def __init__(self, data_fetcher=Serial(), upper_tresh=1, lower_tresh=-1, baseline=0) -> None:
+        super().__init__(data_fetcher, upper_tresh, lower_tresh, baseline)
+    
+    
+    def update(self) -> tuple:
+        self._data_fetcher.update_buffer()
+        data_array = np.array([])
+        for i in self._data_fetcher.get_buffer():
+            data_array = np.append(data_array, i[0])
+        
+        peaks, _= find_peaks(data_array,prominence=1, distance=80)
+        # try:
+        plot.clf()
+        plot.plot(data_array, color="blue")
+        plot.plot(peaks, data_array[peaks], "xr")
+        plot.title(f'{len(peaks) * 4} bpm')
+        plot.pause(0.001)
+        # except ValueError as e:
+        #     plot.clf()
+        #     plot.plot(time_array, data_array, color="blue")
+        #     plot.pause(0.001)
+        
+        return len(peaks)
+    

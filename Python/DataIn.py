@@ -7,6 +7,7 @@ import paho.mqtt.client as mqtt
 from threading import *
 import sys
 import struct
+from scipy.signal import find_peaks
 
 class DataFetcher(ABC):
     def __init__(self, DB=InfluxDB2(), length=60) -> None:
@@ -175,7 +176,6 @@ class MQTT(DataFetcher):
         user_data_set(userdata)
         :param msg: The message payload
         """
-        print(msg)
         time_of_in = int(round(time.time() * 1000000000))
         data_pack = [float(str(msg.payload.decode("UTF-8"))), time_of_in]
         
@@ -196,4 +196,5 @@ class MQTT(DataFetcher):
         client.subscribe(self.__topic)
         
     def update_buffer(self) -> None:
+        self.clear_old_data()
         pass

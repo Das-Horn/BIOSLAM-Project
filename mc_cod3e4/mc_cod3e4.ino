@@ -11,16 +11,17 @@
 /*
  *  DEFINITIONS
  */
-#define APin 34
+#define APin 3
 #define OutMode 1
+#define BUILTIN_LED 0
 /*
  * Output Mode ^
  * 1 = MQTT
  * 2 = Serial
  */
 
-const char* ssid     = "craig";
-const char* password = "11111111";
+const char* ssid     = "eir25287583";
+const char* password = "CindyElsa2022!";
 
 // MQTT Config 
 const char* server = "192.168.0.150";
