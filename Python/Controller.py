@@ -121,20 +121,15 @@ class HeartRate(Controller):
     def update(self) -> tuple:
         self._data_fetcher.update_buffer()
         data_array = np.array([])
-        for i in self._data_fetcher.get_buffer():
+        for i in self._data_fetcher.get_buffer():               # Fetch only Data not times from buffer
             data_array = np.append(data_array, i[0])
         
         peaks, _= find_peaks(data_array,prominence=1, distance=80)
-        # try:
-        plot.clf()
-        plot.plot(data_array, color="blue")
-        plot.plot(peaks, data_array[peaks], "xr")
-        plot.title(f'{len(peaks) * 4} bpm')
-        plot.pause(0.001)
-        # except ValueError as e:
-        #     plot.clf()
-        #     plot.plot(time_array, data_array, color="blue")
-        #     plot.pause(0.001)
+        plot.clf()                                  # Clear Graph of old data
+        plot.plot(data_array, color="blue")         # Plot incoming signal
+        plot.plot(peaks, data_array[peaks], "xr")   #Plot Overlay of Peaks
+        plot.title(f'{len(peaks) * 4} bpm')         #Calculate Heart Rate from peaks
+        plot.pause(0.00)                           #Update Graph
         
         return len(peaks)
     
