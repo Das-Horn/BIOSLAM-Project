@@ -167,7 +167,7 @@ class MQTT(DataFetcher):
         self.__mqtt_update_thread.start()
         
     
-    def on_message(self, client, userdata, msg) -> None:
+    async def on_message(self, client, userdata, msg) -> None:
         """
         It takes a message from the MQTT broker, and appends it to a buffer
         
@@ -177,7 +177,10 @@ class MQTT(DataFetcher):
         :param msg: The message payload
         """
         time_of_in = int(round(time.time() * 1000000000))
-        data_pack = [float(str(msg.payload.decode("UTF-8"))), time_of_in]
+        try:
+            data_pack = [float(str(msg.payload.decode("UTF-8"))), time_of_in]
+        except ValueError as e:
+            print("incorrect Value type recieved from MQTT")
         
         self._buffer.append(data_pack)
     
