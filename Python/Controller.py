@@ -68,7 +68,8 @@ class Controller(ABC):
         """
         It takes a list of numbers, and counts how many times the numbers go above a certain threshold, and
         how many times they go below a certain threshold
-        :return: A tuple of the current stats.
+        :return: A tuple of the current stats.except ValueError as e:
+            print("incorrect Value type recieved from MQTT")
         """
         
         buffer = self._data_fetcher.get_buffer()
@@ -86,6 +87,13 @@ class Controller(ABC):
                 upper_bool = False
             
         return tuple(self._current_stats)
+    
+    def shutdown(self):
+        """
+        This method closes all graphs.
+        """
+        plot.close()
+
     
 class PCInputs(Controller):
     def __init__(self, data_fetcher=Serial(), upper_tresh=1, lower_tresh=-1, baseline=0, mode="Relative") -> None:

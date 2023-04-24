@@ -1,8 +1,10 @@
+#!/usr/bin/python3
 from DB import InfluxDB2
 from DataIn import Serial,WFDB, MQTT
 from Controller import *
 import os
 from dotenv import load_dotenv
+import platform
 
 from serial.serialutil import *
 
@@ -28,17 +30,25 @@ def main():
     # Event Loop
     try:
         while True:
-            os.system('cls')
+            if platform.system() == "Windows":
+                os.system('cls')
+            else:
+                os.system("clear")
             print(f'Current Buffer Stats = {control.update() * 4} bpm')
     except KeyboardInterrupt as c :
         print("Stopping Program...")
-        sys.exit(1)
+        control.shutdown()
+        sys.exit(0)
         # Enter any cleanup data here
     except SerialException as se:
         print("Error connecting to board please make sure it is connedcted properly.")
         print(f'Port : {data.get_serial_port()}\nBaudrate : {data.get_baudrate()}')
         print(f'\n\nMore Error details below..\n{se}')
-    pass
+        control.shutdown()
+        sys.exit(1)
+    finally:
+        control.shutdown()
+        sys.exit(0)
 
 if __name__ == "__main__":
     main()

@@ -3,3 +3,4 @@ sample-data/
 __pycache__
 .env
 *.png
+.vscode
