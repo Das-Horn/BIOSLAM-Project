@@ -56,6 +56,9 @@ class DataFetcher(ABC):
     
     def clear_buffer(self) -> None:
         self._buffer = []  
+    
+    def shutdown(self) -> None:
+        pass
         
 class Serial(DataFetcher):
     def __init__(self, DB=InfluxDB2(), length=60, port="COM11", baudrate=9600) -> None:
@@ -167,7 +170,7 @@ class MQTT(DataFetcher):
         self.__mqtt_update_thread.start()
         
     
-    async def on_message(self, client, userdata, msg) -> None:
+    def on_message(self, client, userdata, msg) -> None:
         """
         It takes a message from the MQTT broker, and appends it to a buffer
         
@@ -179,10 +182,10 @@ class MQTT(DataFetcher):
         time_of_in = int(round(time.time() * 1000000000))
         try:
             data_pack = [float(str(msg.payload.decode("UTF-8"))), time_of_in]
+            self._buffer.append(data_pack)
         except ValueError as e:
             print("incorrect Value type recieved from MQTT")
         
-        self._buffer.append(data_pack)
     
     def on_connect(self, client, userdata, flags, rc) -> None:
         """
@@ -200,4 +203,6 @@ class MQTT(DataFetcher):
         
     def update_buffer(self) -> None:
         self.clear_old_data()
-        pass
+        
+    def shutdown(self) -> None:
+        self.__client.disconnect()

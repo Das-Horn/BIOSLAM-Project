@@ -101,7 +101,7 @@ void cleanSerialOutput() {
 void serialOutput() {
   Serial.print(analogRead(APin));
   Serial.println(",0,4500");
-  delay(5);
+  delay(10);
 }
 
 

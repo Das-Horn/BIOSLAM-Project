@@ -26,29 +26,35 @@ def main():
         lower_tresh=-1.1,
         baseline=1.66
     )
+    # control = PCInputs(
+    #     data,
+    #     upper_tresh=3000,
+    #     lower_tresh= 1000,
+    #     baseline=2000
+    # )
     
     # Event Loop
+    i = 0
     try:
         while True:
-            if platform.system() == "Windows":
-                os.system('cls')
-            else:
-                os.system("clear")
-            print(f'Current Buffer Stats = {control.update() * 4} bpm')
+            # os.system('cls')
+            # print(f'Current Buffer Stats = {control.update()}')
+            control.update()
+            # i += 1
     except KeyboardInterrupt as c :
         print("Stopping Program...")
         control.shutdown()
-        sys.exit(0)
+        # sys.exit(0)
         # Enter any cleanup data here
     except SerialException as se:
         print("Error connecting to board please make sure it is connedcted properly.")
         print(f'Port : {data.get_serial_port()}\nBaudrate : {data.get_baudrate()}')
         print(f'\n\nMore Error details below..\n{se}')
         control.shutdown()
-        sys.exit(1)
+        # sys.exit(1)
     finally:
         control.shutdown()
-        sys.exit(0)
+        # sys.exit(0)
 
 if __name__ == "__main__":
     main()
