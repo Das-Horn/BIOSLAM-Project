@@ -93,6 +93,10 @@ class PCInputs(Controller):
         self._mode = mode
     
     def update(self) -> tuple:
+        """
+        The function updates a buffer and checks if the values in the buffer exceed certain thresholds,
+        updating statistics accordingly.
+        """
         self._data_fetcher.update_buffer()
         
         buffer = self._data_fetcher.get_buffer()
@@ -119,6 +123,12 @@ class HeartRate(Controller):
     
     
     def update(self) -> tuple:
+        """
+        The function updates a buffer of data, finds peaks in the data, plots the data and peaks, calculates
+        the heart rate from the peaks, and returns the number of peaks.
+        :return: the number of peaks detected in the incoming signal, which is an indication of the heart
+        rate.
+        """
         self._data_fetcher.update_buffer()
         data_array = np.array([])
         for i in self._data_fetcher.get_buffer():               # Fetch only Data not times from buffer
@@ -129,7 +139,7 @@ class HeartRate(Controller):
         plot.plot(data_array, color="blue")         # Plot incoming signal
         plot.plot(peaks, data_array[peaks], "xr")   #Plot Overlay of Peaks
         plot.title(f'{len(peaks) * 4} bpm')         #Calculate Heart Rate from peaks
-        plot.pause(0.00)                           #Update Graph
+        plot.pause(0.01)                           #Update Graph
         
         return len(peaks)
     
