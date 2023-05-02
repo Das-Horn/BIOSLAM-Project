@@ -112,26 +112,31 @@ class PCInputs(Controller):
             data_array = np.append(data_array, i[0])
         
         plot.clf()                                  # Clear Graph of old data
-        plot.plot(data_array, color="blue")         # Plot incoming signal
-        plot.title(f'Muscle Movement')         
-        plot.pause(0.001)                           #Update Graph
+        plot.plot(data_array, color="blue")         # Plot incoming signal      
+        title = 'Muscle Movement'         
+                                 #Update Graph
         
         upper_bool = lower_bool = False
         try :                                                                               # ERROR HANDLE : Empty buffer
-            if buffer[-1][0] >= self._upper_treshold and not upper_bool:
+            if buffer[-1][0] >= self._upper_treshold and not upper_bool:                    # Branches to determine which actions to take
                 self._current_stats[0] += 1
                 pyautogui.scroll(100)
                 upper_bool = True
+                plot.title(title+" 🟢")
             elif buffer[-1][0] <= self._lower_treshold and not lower_bool:
                 self._current_stats[1] += 1
                 pyautogui.scroll(-100)
                 lower_bool = True
+                plot.title(title+" 🔴")
             elif buffer[-1][0] <= self._upper_treshold and buffer[0][0] >= self._lower_treshold:
                 lower_bool = False
                 upper_bool = False
+                plot.title(title+" ⚫")
         except IndexError as ie:
             print("Buffer is currently empty")
             print(buffer)
+        finally:
+            plot.pause(0.001)  
 
 class HeartRate(Controller):
     def __init__(self, data_fetcher=Serial(), upper_tresh=1, lower_tresh=-1, baseline=0) -> None:
