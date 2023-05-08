@@ -20,18 +20,18 @@ def main():
     # data = Serial(DB=db)
     # data = WFDB(DB=db, file_path="Data-testing/sample-data/ECG/16265")
     data = MQTT(db,server_name="192.168.0.150", length=15)
-    # control = HeartRate(
-    #     data,
-    #     upper_tresh=3,
-    #     lower_tresh=-1.1,
-    #     baseline=1.66
-    # )
-    control = PCInputs(
+    control = HeartRate(
         data,
-        upper_tresh=3000,
-        lower_tresh= 1000,
-        baseline=2000
+        upper_tresh=3,
+        lower_tresh=-1.1,
+        baseline=1.66
     )
+    # control = PCInputs(
+    #     data,
+    #     upper_tresh=3000,
+    #     lower_tresh= 1000,
+    #     baseline=2000
+    # )
     
     # Event Loop
     i = 0

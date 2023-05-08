@@ -183,6 +183,7 @@ class MQTT(DataFetcher):
         try:
             data_pack = [float(str(msg.payload.decode("UTF-8"))), time_of_in]
             self._buffer.append(data_pack)
+            self._DB.write_data(data_pack)
         except ValueError as e:
             print("incorrect Value type recieved from MQTT")
         
