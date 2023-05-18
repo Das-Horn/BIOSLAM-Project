@@ -33,13 +33,13 @@ char msg[MSG_BUFFER_SIZE];
 int value = 0;
 
 void callback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("] ");
+//  Serial.print("Message arrived [");
+//  Serial.print(topic);
+//  Serial.print("] ");
   for (int i = 0; i < length; i++) {
-    Serial.print((char)payload[i]);
+//    Serial.print((char)payload[i]);
   }
-  Serial.println();
+//  Serial.println();
 
   // Switch on the LED if an 1 was received as first character
   if ((char)payload[0] == '1') {
@@ -55,7 +55,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
-    Serial.print("Attempting MQTT connection...");
+//    Serial.print("Attempting MQTT connection...");
     // Create a random client ID
     String clientId = "ESP32Client-";
     clientId += String(random(0xffff), HEX);
@@ -67,9 +67,9 @@ void reconnect() {
       // ... and resubscribe
       client.subscribe("inTopic");
     } else {
-      Serial.print("failed, rc=");
-      Serial.print(client.state());
-      Serial.println(" try again in 2 seconds");
+//      Serial.print("failed, rc=");
+//      Serial.print(client.state());
+//      Serial.println(" try again in 2 seconds");
       // Wait 5 seconds before retrying
       delay(2000);
     }
@@ -85,10 +85,10 @@ void MQTTOutput() {
 
   int val = analogRead(APin);
   snprintf (msg, MSG_BUFFER_SIZE, "%4d", val);
-  Serial.print(val);
-  Serial.print("    ");
-  Serial.print("Publish message: ");
-  Serial.println(msg);
+//  Serial.print(val);
+//  Serial.print("    ");
+//  Serial.print("Publish message: ");
+//  Serial.println(msg);
   client.publish("outTopic", msg);
   delay(5);
 }
@@ -108,25 +108,27 @@ void serialOutput() {
 void setup() {
   // Setup Analogue Pin & Serial Port
   pinMode(APin, INPUT);
-  Serial.begin(9600);
+  if (OutMode == 2) {
+    Serial.begin(9600);
+  }
 
   // We start by connecting to a WiFi network
-  Serial.println();
-  Serial.println();
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
+//  Serial.println();
+//  Serial.println();
+//  Serial.print("Connecting to ");
+//  Serial.println(ssid);
 
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
       delay(500);
-      Serial.print(".");
+//      Serial.print(".");
   }
 
-  Serial.println("");
-  Serial.println("WiFi connected");
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
+//  Serial.println("");
+//  Serial.println("WiFi connected");
+//  Serial.println("IP address: ");
+//  Serial.println(WiFi.localIP());
 
   // MQTT Setup
   client.setServer(server, 1883);
@@ -139,6 +141,6 @@ void loop() {
    }else if(OutMode == 2) {
       serialOutput();
    } else {
-      Serial.println("Error Incorrect mode selected.");
+//      Serial.println("Error Incorrect mode selected.");
    }
 }

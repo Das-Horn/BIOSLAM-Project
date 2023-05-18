@@ -1,0 +1,76 @@
+<mxfile host="app.diagrams.net" modified="2023-05-18T15:11:24.458Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="1TB1Yff80DhEq7Cca1Rj" version="21.3.2" type="device">
+  <diagram name="Page-1" id="rq_Kg7g3LPgOvGYjTOqf">
+    <mxGraphModel dx="2037" dy="826" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="weylxqL1mtqgBuPKJIQA-2" value="Raspberry Pi" style="swimlane;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="60" y="30" width="390" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-3" value="Docker" style="swimlane;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="weylxqL1mtqgBuPKJIQA-2">
+          <mxGeometry y="30" width="232" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-7" value="" style="shape=image;imageAspect=0;aspect=fixed;verticalLabelPosition=bottom;verticalAlign=top;image=https://static-00.iconduck.com/assets.00/influxdb-icon-252x256-lkngj47t.png;" vertex="1" parent="weylxqL1mtqgBuPKJIQA-3">
+          <mxGeometry x="20" y="40" width="71.86" height="73" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-8" value="InfluxDB" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="weylxqL1mtqgBuPKJIQA-3">
+          <mxGeometry x="20.930000000000007" y="113" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-9" value="" style="shape=image;imageAspect=0;aspect=fixed;verticalLabelPosition=bottom;verticalAlign=top;image=https://cdn.icon-icons.com/icons2/2699/PNG/512/grafana_logo_icon_171048.png;" vertex="1" parent="weylxqL1mtqgBuPKJIQA-3">
+          <mxGeometry x="140" y="35.5" width="82" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-10" value="Grafana" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="weylxqL1mtqgBuPKJIQA-3">
+          <mxGeometry x="146" y="117.5" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-5" value="" style="shape=image;imageAspect=0;aspect=fixed;verticalLabelPosition=bottom;verticalAlign=top;image=https://raw.githubusercontent.com/docker-library/docs/757578e3a44e5460a8a11d32a81776f8b74231a9/eclipse-mosquitto/logo.png;" vertex="1" parent="weylxqL1mtqgBuPKJIQA-2">
+          <mxGeometry x="280" y="40" width="73" height="73" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-6" value="Mosquitto" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="weylxqL1mtqgBuPKJIQA-2">
+          <mxGeometry x="276.5" y="110" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-11" value="" style="shape=image;imageAspect=0;aspect=fixed;verticalLabelPosition=bottom;verticalAlign=top;image=https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1869px-Python-logo-notext.svg.png;" vertex="1" parent="weylxqL1mtqgBuPKJIQA-2">
+          <mxGeometry x="279.92" y="150" width="73.08" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-12" value="Python" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="weylxqL1mtqgBuPKJIQA-2">
+          <mxGeometry x="286.46" y="220" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-14" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="580" y="420" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-15" value="Hotspot" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="600" y="470" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-16" value="" style="shape=mxgraph.arrows2.wedgeArrowDashed2;html=1;bendable=0;startWidth=50;stepSize=15;rounded=0;entryX=0.015;entryY=0.159;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="weylxqL1mtqgBuPKJIQA-2" target="weylxqL1mtqgBuPKJIQA-14">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="440" y="330" as="sourcePoint" />
+            <mxPoint x="540" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-17" value="" style="shape=mxgraph.arrows2.wedgeArrowDashed2;html=1;bendable=0;startWidth=50;stepSize=15;rounded=0;entryX=0.069;entryY=0.857;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="weylxqL1mtqgBuPKJIQA-20" target="weylxqL1mtqgBuPKJIQA-14">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="470" y="610" as="sourcePoint" />
+            <mxPoint x="580" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-19" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="94" y="470" width="60" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-20" value="ESP32-C3-MINI" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="294" y="540" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-21" value="" style="endArrow=classic;html=1;rounded=0;exitX=-0.003;exitY=0.556;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="weylxqL1mtqgBuPKJIQA-20" target="weylxqL1mtqgBuPKJIQA-19">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="194" y="480" as="sourcePoint" />
+            <mxPoint x="294" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-22" value="Electrodes" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="weylxqL1mtqgBuPKJIQA-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="weylxqL1mtqgBuPKJIQA-23" value="WIFI - MQTT" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="420" width="60" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
