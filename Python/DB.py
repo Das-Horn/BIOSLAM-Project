@@ -111,4 +111,4 @@ class InfluxDB2(DB):
             }
         
         self._write_api.write(self._database_name, self._org, point)
-        print("Write TO DB")
+        # print("Write TO DB")

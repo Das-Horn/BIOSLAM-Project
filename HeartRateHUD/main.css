@@ -1,0 +1,61 @@
+/*
+ * @NOTE: Prepend a `~` to css file paths that are in your node_modules
+ *        See https://github.com/webpack-contrib/sass-loader#imports
+ */
+ :root {
+  --main-color: rgba(255, 0, 0, 0.703);
+}
+
+ body {
+  position: relative;
+  color: white;
+  height: 100vh;
+  background: #ff000000;
+  font-family: sans-serif;
+  overflow: hidden;
+  margin: 0;
+}
+
+h1 {
+  opacity:1;
+}
+
+#Cont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+
+#Cont1 {
+  position:absolute;
+  top:0;
+  left:0;
+  background: url("./heart.png");
+  width:100%;
+  height:100%;
+
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  opacity: 1;
+  z-index: -1;
+  animation: heartbeat ease-out 0s infinite alternate;
+  animation-duration: 0.2s;
+
+  transition: all 0.5s ease-in-out;
+}
+
+@keyframes heartbeat {
+  from {opacity:1;}
+  to {opacity:0;}
+}
+
+#root {
+  width:100%;
+  height:100%;
+}

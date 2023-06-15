@@ -1,8 +1,11 @@
 from abc import ABC, abstractmethod
 import pyautogui
+from DataIn import Serial
 from DataIn import *
 import matplotlib.pyplot as plot
 import numpy as np
+from twisted.web import server, resource
+from twisted.internet import reactor, endpoints
 
 
 class Controller(ABC):
@@ -92,7 +95,6 @@ class Controller(ABC):
         """
         plot.close()
         self._data_fetcher.shutdown()
-
     
 class PCInputs(Controller):
     def __init__(self, data_fetcher=Serial(), upper_tresh=1, lower_tresh=-1, baseline=0, mode="Relative") -> None:
@@ -151,11 +153,8 @@ class HeartRate(Controller):
         rate.
         """
         self._data_fetcher.update_buffer()
-        data_array = np.array([])
-        for i in self._data_fetcher.get_buffer():               # Fetch only Data not times from buffer
-            data_array = np.append(data_array, i[0])
-        
-        peaks, _= find_peaks(data_array,prominence=1, distance=80)
+        data_array, peaks = self.calc_heartrate()
+        self._data_fetcher.publish_msg("bpm", len(peaks) * 4)
         plot.clf()                                  # Clear Graph of old data
         plot.plot(data_array, color="blue")         # Plot incoming signal
         plot.plot(peaks, data_array[peaks], "xr")   #Plot Overlay of Peaks
@@ -163,4 +162,29 @@ class HeartRate(Controller):
         plot.pause(0.01)                           #Update Graph
         
         return len(peaks)
-    
+
+    def calc_heartrate(self):
+        """
+        This function calculates the heart rate by fetching data from a buffer, finding peaks in the data
+        using the find_peaks function from the scipy library, and returning the data array and the peaks.
+        :return: The function `calc_heartrate` is returning two values: `data_array` and `peaks`.
+        """
+        data_array = np.array([])
+        for i in self._data_fetcher.get_buffer():               # Fetch only Data not times from buffer
+            data_array = np.append(data_array, i[0])
+        
+        peaks, _= find_peaks(data_array,prominence=300, distance=10)
+        return data_array,peaks
+
+
+class BPMHUD(HeartRate):
+    def __init__(self, data_fetcher=Serial(), upper_tresh=1, lower_tresh=-1, baseline=0) -> None:
+        super().__init__(data_fetcher, upper_tresh, lower_tresh, baseline)
+        self._current_bpm = 0
+        
+    def update(self):
+        self._data_fetcher.update_buffer()
+        data_array, peaks = self.calc_heartrate()
+        self._current_bpm = len(peaks) * 4
+        print(peaks)
+        self._data_fetcher.publish_msg("bpm", self._current_bpm)

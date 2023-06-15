@@ -201,6 +201,10 @@ class MQTT(DataFetcher):
         """
         print("Connection Established...")
         client.subscribe(self.__topic)
+    
+    def publish_msg(self, topic, msg):
+        print(f"Updating BPM {msg}")
+        self.__client.publish(topic, msg)
         
     def update_buffer(self) -> None:
         self.clear_old_data()

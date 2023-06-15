@@ -8,6 +8,11 @@ import platform
 
 from serial.serialutil import *
 
+def web_server(bp_class: BPMHUD):
+    endpoints.serverFromString(reactor, "tcp:8080:interface=127.0.0.1").listen(server.Site(bp_class))
+    reactor.run()
+    
+
 def main():
     load_dotenv()
     
@@ -26,6 +31,14 @@ def main():
         lower_tresh=-1.1,
         baseline=1.66
     )
+    
+    # control = BPMHUD(
+    #     data,
+    #     upper_tresh=3,
+    #     lower_tresh=-1.1,
+    #     baseline=1.66
+    # )
+    
     # control = PCInputs(
     #     data,
     #     upper_tresh=3000,

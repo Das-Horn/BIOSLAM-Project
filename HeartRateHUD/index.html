@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <link rel="stylesheet" type="text/css" href="./main.css" />
+    <title>Electron MQTT</title>
+  </head>
+  <body>
+    <div id="Cont">
+      <h1 id="val">000</h1>
+      <div id='Cont1' />
+      <!-- <img id="Cont1" src="./heart.png" /> -->
+    </div>
+    <script src="./renderer.js"></script>
+  </body>
+</html>
